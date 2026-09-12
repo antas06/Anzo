@@ -36,7 +36,7 @@ anzo/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/anzo.git
+git clone https://github.com/antas06/anzo.git
 cd anzo
 ```
 
