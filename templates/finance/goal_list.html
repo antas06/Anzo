@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>Savings Goals</h2>
+        <a href="{% url 'finance:goal_create' %}" class="btn">Add Goal</a>
+    </div>
+
+    {% if goals %}
+        <div class="grid">
+            {% for goal in goals %}
+            <div class="card" style="border: 1px solid #eee;">
+                <h3>{{ goal.name }}</h3>
+                <p>
+                    <span style="font-size: 1.5rem; color: var(--matte-green);">${{ goal.current_amount }}</span> 
+                    / ${{ goal.target_amount }}
+                </p>
+                <div class="progress-bar">
+                    <div class="progress" style="width: {{ goal.progress_percentage }}%;"></div>
+                </div>
+                <p style="text-align: right; font-size: 0.8rem; color: #666; margin-top: 0.5rem;">
+                    {{ goal.progress_percentage }}% complete
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No savings goals found.</p>
+    {% endif %}
+</div>
+{% endblock %}

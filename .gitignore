@@ -1,2 +1,4 @@
 db.sqlite3
 .venv
+finance/__pycache__/
+Anzo/__pycache__/

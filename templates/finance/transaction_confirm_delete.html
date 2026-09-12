@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card" style="max-width: 500px; margin: 0 auto; text-align: center;">
+    <h2>Delete Transaction</h2>
+    <p>Are you sure you want to delete the transaction <strong>"{{ transaction.description }}"</strong> for ${{ transaction.amount }}?</p>
+    <form method="post">
+        {% csrf_token %}
+        <div style="margin-top: 2rem;">
+            <button type="submit" class="btn btn-danger">Yes, Delete</button>
+            <a href="{% url 'finance:transaction_list' %}" class="btn" style="background-color: #999;">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

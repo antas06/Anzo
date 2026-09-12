@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card" style="text-align: center; background-color: var(--matte-green); color: white;">
+    <h1 style="color: white; margin-bottom: 0.5rem;">Current Balance</h1>
+    <h2 style="color: var(--accent); font-size: 2.5rem; margin-bottom: 0;">${{ balance|default:"0.00" }}</h2>
+    <p style="margin-top: 1rem;">
+        Income: ${{ total_income|default:"0.00" }} | Expenses: ${{ total_expense|default:"0.00" }}
+    </p>
+</div>
+
+<div class="grid">
+    <div class="card">
+        <h3>Recent Transactions</h3>
+        {% if transactions %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tx in transactions %}
+                    <tr>
+                        <td>{{ tx.date }}</td>
+                        <td>{{ tx.description }}</td>
+                        <td style="color: {% if tx.transaction_type == 'INCOME' %}green{% else %}var(--danger){% endif %}">
+                            {% if tx.transaction_type == 'EXPENSE' %}-{% else %}+{% endif %}${{ tx.amount }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'finance:transaction_list' %}" class="btn">View All</a>
+        {% else %}
+            <p>No recent transactions.</p>
+        {% endif %}
+        <a href="{% url 'finance:transaction_create' %}" class="btn">Add Transaction</a>
+    </div>
+
+    <div class="card">
+        <h3>Savings Goals</h3>
+        {% if goals %}
+            {% for goal in goals %}
+                <div style="margin-bottom: 1rem;">
+                    <strong>{{ goal.name }}</strong> 
+                    <span style="float: right;">${{ goal.current_amount }} / ${{ goal.target_amount }}</span>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: {{ goal.progress_percentage }}%;"></div>
+                    </div>
+                </div>
+            {% endfor %}
+            <a href="{% url 'finance:goal_list' %}" class="btn">Manage Goals</a>
+        {% else %}
+            <p>No savings goals set.</p>
+        {% endif %}
+        <a href="{% url 'finance:goal_create' %}" class="btn">New Goal</a>
+    </div>
+</div>
+{% endblock %}
